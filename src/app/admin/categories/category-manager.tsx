@@ -14,6 +14,7 @@ import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { ProductImage } from "@/components/shared/product-image";
+import { categoryPhoto } from "@/lib/produce-photos";
 import { useToast } from "@/components/ui/toast";
 import { slugify } from "@/lib/utils";
 
@@ -43,7 +44,7 @@ export function CategoryManager({ categories }: { categories: CategoryAdminRow[]
             {categories.map((c) => (
               <li key={c.id} className="flex items-center gap-4 px-4 py-3.5 sm:px-5">
                 <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-beige">
-                  <ProductImage src={c.imageUrl} alt={c.name} sizes="48px" showLabel={false} />
+                  <ProductImage src={c.imageUrl} fallbackSrc={categoryPhoto(c.slug)} alt={c.name} sizes="48px" showLabel={false} />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-2 font-bold">

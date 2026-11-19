@@ -17,6 +17,7 @@ export function ProductImage({
   className,
   priority,
   showLabel = true,
+  fallbackSrc,
 }: {
   src: string | null;
   alt: string;
@@ -24,9 +25,14 @@ export function ProductImage({
   className?: string;
   priority?: boolean;
   showLabel?: boolean;
+  /** Bundled local photo (see lib/produce-photos) used when no uploaded photo is available. */
+  fallbackSrc?: string | null;
 }) {
   const [failed, setFailed] = useState(false);
-  if (!isAllowedImageUrl(src) || failed) {
+  const [fallbackFailed, setFallbackFailed] = useState(false);
+  const useUploaded = isAllowedImageUrl(src) && !failed;
+  const shown = useUploaded ? src : !fallbackFailed ? fallbackSrc : null;
+  if (!shown) {
     return (
       <div
         className={cn("flex h-full w-full flex-col items-center justify-center gap-2 bg-beige text-forest/70", className)}
@@ -40,13 +46,14 @@ export function ProductImage({
   }
   return (
     <Image
-      src={src}
+      key={shown}
+      src={shown}
       alt={alt}
       fill
       sizes={sizes}
       priority={priority}
       className={cn("object-cover", className)}
-      onError={() => setFailed(true)}
+      onError={() => (useUploaded ? setFailed(true) : setFallbackFailed(true))}
     />
   );
 }

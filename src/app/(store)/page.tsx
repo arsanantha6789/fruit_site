@@ -10,6 +10,7 @@ import { getBusinessSettings } from "@/modules/settings/repo";
 import { formatINR } from "@/lib/money";
 import { Alert } from "@/components/ui/alert";
 import { isAllowedImageUrl } from "@/lib/images";
+import { categoryPhoto, HERO_PHOTO, PROMO_PHOTO } from "@/lib/produce-photos";
 
 export default async function HomePage({ searchParams }: PageProps<"/">) {
   const sp = await searchParams;
@@ -19,6 +20,8 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
     listProducts({ featuredOnly: true, limit: 8 }),
   ]);
   const products = featured.products.length ? featured.products : (await listProducts({ limit: 8 })).products;
+  const heroSrc = isAllowedImageUrl(settings.heroImageUrl) ? settings.heroImageUrl : HERO_PHOTO;
+  const promoSrc = isAllowedImageUrl(settings.promoImageUrl) ? settings.promoImageUrl : PROMO_PHOTO;
 
   return (
     <>
@@ -31,16 +34,9 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
       {/* Hero */}
       <section className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-8 lg:px-8">
         <div className="relative isolate overflow-hidden rounded-[1.75rem] bg-forest">
-          {isAllowedImageUrl(settings.heroImageUrl) ? (
+          {heroSrc ? (
             <>
-              <Image
-                src={settings.heroImageUrl!}
-                alt=""
-                fill
-                priority
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                className="-z-10 object-cover"
-              />
+              <Image src={heroSrc} alt="" fill priority sizes="(max-width: 1280px) 100vw, 1280px" className="-z-10 object-cover" />
               <div className="absolute inset-0 -z-10 bg-gradient-to-r from-forest/90 via-forest/60 to-forest/10" />
             </>
           ) : (
@@ -115,6 +111,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
               >
                 <ProductImage
                   src={c.imageUrl}
+                  fallbackSrc={categoryPhoto(c.slug)}
                   alt={c.name}
                   sizes="(max-width: 1024px) 50vw, 25vw"
                   showLabel={false}
@@ -163,8 +160,8 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
             </LinkButton>
           </div>
           <div className="relative min-h-60 md:min-h-full">
-            {isAllowedImageUrl(settings.promoImageUrl) ? (
-              <Image src={settings.promoImageUrl!} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+            {promoSrc ? (
+              <Image src={promoSrc} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             ) : (
               <div className="absolute inset-0 bg-beige-deep">
                 <HeroArt subtle />

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ProductView } from "@/modules/catalog/types";
 import { ProductImage } from "@/components/shared/product-image";
+import { productPhoto } from "@/lib/produce-photos";
 import { Badge } from "@/components/ui/badge";
 import { AddToCart } from "./add-to-cart";
 
@@ -15,6 +16,7 @@ export function ProductCard({ product, priority }: { product: ProductView; prior
       >
         <ProductImage
           src={product.imageUrl}
+          fallbackSrc={productPhoto(product.slug)}
           alt={product.name}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           priority={priority}

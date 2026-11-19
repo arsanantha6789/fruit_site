@@ -7,6 +7,7 @@ import { getBusinessSettings } from "@/modules/settings/repo";
 import { AddToCart } from "@/components/store/add-to-cart";
 import { ProductGrid } from "@/components/store/product-card";
 import { ProductImage } from "@/components/shared/product-image";
+import { productPhoto } from "@/lib/produce-photos";
 import { Badge } from "@/components/ui/badge";
 import { formatINR } from "@/lib/money";
 
@@ -52,7 +53,13 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-14">
         <div className="relative aspect-square overflow-hidden rounded-[1.5rem] bg-beige">
-          <ProductImage src={product.imageUrl} alt={product.name} sizes="(max-width: 1024px) 100vw, 50vw" priority />
+          <ProductImage
+            src={product.imageUrl}
+            fallbackSrc={productPhoto(product.slug)}
+            alt={product.name}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            priority
+          />
         </div>
         <div className="flex flex-col lg:py-4">
           {product.category && <p className="text-xs font-bold tracking-wider text-primary uppercase">{product.category.name}</p>}

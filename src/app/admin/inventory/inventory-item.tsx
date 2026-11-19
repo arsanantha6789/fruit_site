@@ -7,6 +7,7 @@ import type { InventoryRow } from "@/modules/inventory/repo";
 import { setVariantPriceAction, updateInventoryAction } from "@/modules/inventory/actions";
 import { UNIT_LABEL } from "@/modules/catalog/units";
 import { ProductImage } from "@/components/shared/product-image";
+import { productPhoto } from "@/lib/produce-photos";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
@@ -56,7 +57,7 @@ export function InventoryItem({ row, canEditPrices }: { row: InventoryRow; canEd
     <li className={cn("px-4 py-4 sm:px-5", !row.isActive && "opacity-60")}>
       <div className="flex flex-wrap items-center gap-3 sm:flex-nowrap">
         <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-beige">
-          <ProductImage src={row.imageUrl} alt={row.name} sizes="48px" showLabel={false} />
+          <ProductImage src={row.imageUrl} fallbackSrc={productPhoto(row.name)} alt={row.name} sizes="48px" showLabel={false} />
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate font-bold">{row.name}</p>

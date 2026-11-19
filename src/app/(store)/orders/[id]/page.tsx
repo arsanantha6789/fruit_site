@@ -9,6 +9,7 @@ import { PAYMENT_METHOD_LABEL } from "@/modules/payments/methods";
 import { PaymentBadge, StatusBadge } from "@/components/shared/status-badge";
 import { OrderTotals } from "@/components/store/order-totals";
 import { ProductImage } from "@/components/shared/product-image";
+import { productPhoto } from "@/lib/produce-photos";
 import { Card } from "@/components/ui/card";
 import { formatINR } from "@/lib/money";
 import { formatDateTime } from "@/lib/utils";
@@ -65,7 +66,13 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/or
               {order.items.map((i) => (
                 <li key={i.id} className="flex items-center gap-4 px-5 py-4 sm:px-6">
                   <div className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-beige">
-                    <ProductImage src={i.imageUrl} alt={i.productName} sizes="56px" showLabel={false} />
+                    <ProductImage
+                      src={i.imageUrl}
+                      fallbackSrc={productPhoto(i.productName)}
+                      alt={i.productName}
+                      sizes="56px"
+                      showLabel={false}
+                    />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold">{i.productName}</p>

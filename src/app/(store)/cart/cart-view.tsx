@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingBasket, Trash2 } from "lucide-react";
 import { useCartQuote } from "@/modules/cart/use-quote";
 import { ProductImage } from "@/components/shared/product-image";
+import { productPhoto } from "@/lib/produce-photos";
 import { QuantityStepper } from "@/components/store/quantity-stepper";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
@@ -63,7 +64,13 @@ export function CartView() {
                 tabIndex={-1}
                 aria-hidden="true"
               >
-                <ProductImage src={l.imageUrl} alt={l.productName} sizes="96px" showLabel={false} />
+                <ProductImage
+                  src={l.imageUrl}
+                  fallbackSrc={productPhoto(l.productSlug)}
+                  alt={l.productName}
+                  sizes="96px"
+                  showLabel={false}
+                />
               </Link>
               <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <div className="flex items-start justify-between gap-3">

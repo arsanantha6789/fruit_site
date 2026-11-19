@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
 import { ProductImage } from "@/components/shared/product-image";
+import { productPhoto } from "@/lib/produce-photos";
 import { formatINR } from "@/lib/money";
 
 export const metadata: Metadata = { title: "Products" };
@@ -46,7 +47,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps<"/ad
               <li key={p.id}>
                 <Link href={`/admin/products/${p.id}`} className="flex items-center gap-4 px-4 py-3.5 hover:bg-canvas sm:px-5">
                   <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-beige">
-                    <ProductImage src={p.imageUrl} alt={p.name} sizes="48px" showLabel={false} />
+                    <ProductImage src={p.imageUrl} fallbackSrc={productPhoto(p.slug)} alt={p.name} sizes="48px" showLabel={false} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-bold">{p.name}</p>
